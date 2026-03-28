@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Um Conto Especial ✨</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+color:white;
+background:linear-gradient(180deg,#0b1d3a,#1a3c6e,#4c78c2);
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* céu estrelado */
+
+.star{
+position:fixed;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+opacity:.8;
+animation:twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:.2;transform:scale(.7)}
+to{opacity:1;transform:scale(1.3)}
+}
+
+/* brilho mágico */
+
+.magic{
+position:fixed;
+width:6px;
+height:6px;
+background:gold;
+border-radius:50%;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(100vh)}
+to{transform:translateY(-10vh)}
+}
+
+.container{
+max-width:420px;
+}
+
+/* título disney */
+
+.title{
+font-family:'Great Vibes',cursive;
+font-size:48px;
+margin-bottom:25px;
+opacity:0;
+animation:fadeIn 2s forwards;
+}
+
+@keyframes fadeIn{
+to{opacity:1}
+}
+
+/* presente mágico */
+
+.gift{
+margin:auto;
+width:180px;
+height:130px;
+background:linear-gradient(145deg,#ff6fa5,#ff3c7d);
+border-radius:15px;
+position:relative;
+cursor:pointer;
+box-shadow:0 0 40px rgba(255,255,255,.6);
+animation:levitar 3s ease-in-out infinite;
+}
+
+@keyframes levitar{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+}
+
+.gift::before{
+content:"";
+position:absolute;
+width:24px;
+height:100%;
+background:#fff8;
+left:50%;
+transform:translateX(-50%);
+}
+
+.lid{
+width:180px;
+height:50px;
+background:#e11d48;
+position:absolute;
+top:-50px;
+border-radius:15px 15px 0 0;
+transform-origin:bottom;
+transition:1.2s;
+}
+
+/* conteúdo */
+
+.content{
+display:none;
+animation:aparecer 2s forwards;
+}
+
+@keyframes aparecer{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.mensagem{
+font-size:20px;
+line-height:1.8;
+white-space:pre-line;
+margin-top:20px;
+}
+
+/* foto encantada */
+
+img{
+width:220px;
+border-radius:50%;
+margin-top:25px;
+box-shadow:0 0 60px #fff,0 0 120px #ffd700;
+animation:glow 4s ease-in-out infinite;
+}
+
+@keyframes glow{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.08)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">✨ Era Uma Vez... ✨</div>
+
+<div class="gift" onclick="abrirPresente()" id="gift">
+<div class="lid" id="lid"></div>
+</div>
+
+<div class="content" id="content">
+<p class="mensagem" id="texto"></p>
+<img src="_MG_6310.jpg">
+</div>
+
+</div>
+
+<!-- música disney -->
+<audio id="musica" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9bce13.mp3?filename=romantic-piano-110624.mp3">
+</audio>
+
+<script>
+
+/* criar estrelas */
+for(let i=0;i<80;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+document.body.appendChild(s);
+}
+
+/* partículas mágicas */
+setInterval(()=>{
+let m=document.createElement("div");
+m.className="magic";
+m.style.left=Math.random()*100+"vw";
+document.body.appendChild(m);
+setTimeout(()=>m.remove(),6000);
+},300);
+
+/* abrir presente */
+
+function abrirPresente(){
+
+document.getElementById("lid").style.transform="rotateX(160deg)";
+
+const audio=document.getElementById("musica");
+audio.volume=0.2;
+audio.play();
+
+/* fade música */
+let v=0.2;
+let fade=setInterval(()=>{
+if(v<0.9){v+=0.05;audio.volume=v;}
+else clearInterval(fade);
+},400);
+
+setTimeout(()=>{
+document.getElementById("gift").style.display="none";
+document.getElementById("content").style.display="block";
+digitarTexto();
+},1200);
+}
+
+/* mensagem */
+
+const mensagem=`Feliz aniversário, Vanessa!
+
+Hoje é um dia mágico,
+porque celebramos alguém especial,
+com um coração cheio de luz.
+
+Que sua vida seja como um conto de fadas:
+repleta de alegria, amor e sonhos realizados.
+
+Que a felicidade te acompanhe
+em todos os capítulos da sua história. ✨💖`;
+
+function digitarTexto(){
+let i=0;
+const el=document.getElementById("texto");
+
+(function escrever(){
+if(i<mensagem.length){
+el.innerHTML+=mensagem.charAt(i);
+i++;
+setTimeout(escrever,28);
+}
+})();
+}
+
+</script>
+
+</body>
+</html>
